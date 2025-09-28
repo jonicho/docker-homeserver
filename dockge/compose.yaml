@@ -1,0 +1,22 @@
+services:
+  dockge:
+    image: louislam/dockge:1
+    restart: unless-stopped
+    user: 950:950
+    group_add:
+      - 999
+    ports:
+      - 82:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/main-pool/apps/dockge/data:/app/data
+      - /mnt/main-pool/stacks/:/mnt/main-pool/stacks/
+    environment:
+      - DOCKGE_STACKS_DIR=/mnt/main-pool/stacks/
+      - TZ="Europe/Berlin"
+      - DOCKGE_ENABLE_CONSOLE=true
+    networks:
+      - caddy
+networks:
+  caddy:
+    external: true

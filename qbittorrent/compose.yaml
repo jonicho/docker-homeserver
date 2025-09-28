@@ -1,0 +1,56 @@
+services:
+  vpn:
+    image: thrnz/docker-wireguard-pia
+    restart: unless-stopped
+    volumes:
+      - /mnt/main-pool/apps/qbittorrent/pia:/pia # Auth token is stored here
+      - ./update-port-qbt.sh:/update-port-qbt.sh:ro
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ=Europe/Berlin
+      - LOC=swiss
+      - LOCAL_NETWORK=172.16.0.0/12,192.168.1.0/24
+      - PORT_FORWARDING=1
+      - PORT_SCRIPT=/update-port-qbt.sh
+      # - DEBUG=1
+    sysctls:
+      # The wg-quick script tries to set this when setting up routing, however this requires running the container
+      # with the --privileged flag set. Setting it here instead if needed means the container can be run with lower
+      # privileges. This only needs setting if strict reverse path filtering (rp_filter=1) is used.
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.default.disable_ipv6=1
+      - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv6.conf.lo.disable_ipv6=1
+    healthcheck:
+      test: ping -c 1 www.google.com || exit 1
+      interval: 300s
+      timeout: 10s
+      start_period: 30s
+      start_interval: 3s
+    networks:
+      - caddy
+  qbittorrent:
+    image: qbittorrentofficial/qbittorrent-nox:latest
+    restart: unless-stopped
+    user: 568:568
+    environment:
+      #- PAGID=10000
+      - PGID=568
+      - PUID=568
+      - QBT_LEGAL_NOTICE=confirm
+      - QBT_WEBUI_PORT=80
+      - TZ=Europe/Berlin
+      #- UMASK=022
+    tmpfs:
+      - /tmp
+    volumes:
+      - /mnt/main-pool/apps/qbittorrent/qbt-config:/config
+      - /mnt/media-pool/media:/mnt/nas-media
+    network_mode: service:vpn
+    depends_on:
+      vpn:
+        condition: service_healthy
+networks:
+  caddy:
+    external: true

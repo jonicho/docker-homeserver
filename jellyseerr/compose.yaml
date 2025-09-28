@@ -1,0 +1,18 @@
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    user: 568:568
+    environment:
+      #- LOG_LEVEL=debug
+      - TZ=Europe/Berlin
+      - PORT=80
+      - PGID=568
+      - PUID=568
+    volumes:
+      - /mnt/main-pool/apps/jellyseerr/config:/app/config
+    restart: unless-stopped
+    networks:
+      - caddy
+networks:
+  caddy:
+    external: true

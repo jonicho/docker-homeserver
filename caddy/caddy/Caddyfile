@@ -1,0 +1,50 @@
+{
+	email jonas.r.keller@gmail.com
+}
+
+(block_external) {
+	@is_external {
+		not remote_ip 192.168.1.0/24
+	}
+	abort @is_external
+}
+
+nextcloud.{$DOMAIN} {
+	reverse_proxy 192.168.1.100:30027
+}
+{$OLD_NEXTCLOUD_DOMAIN} {
+	redir https://nextcloud.{$DOMAIN}{uri} permanent
+}
+
+jellyfin.{$DOMAIN} {
+	reverse_proxy jellyfin-jellyfin-1
+}
+jellyseerr.{$DOMAIN} {
+	reverse_proxy jellyseerr-jellyseerr-1
+}
+jellyseer.{$DOMAIN} {
+	redir https://jellyseerr.{$DOMAIN}{uri} permanent
+}
+audiobookshelf.{$DOMAIN} {
+	reverse_proxy audiobookshelf-audiobookshelf-1
+}
+adguardhome.{$DOMAIN} {
+	import block_external
+	reverse_proxy adguardhome-adguardhome-1
+}
+adguard-home.{$DOMAIN} {
+	redir https://adguardhome.{$DOMAIN}{uri} permanent
+}
+truenas.{$DOMAIN} {
+	import block_external
+	reverse_proxy 192.168.1.100:81
+}
+dockge.{$DOMAIN} {
+	import block_external
+	reverse_proxy dockge-dockge-1:5001
+}
+qbittorrent.{$DOMAIN} {
+	import block_external
+	reverse_proxy qbittorrent-vpn-1
+}
+

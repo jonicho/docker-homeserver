@@ -1,0 +1,36 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    user: 568:568
+    group_add:
+      - "44"
+      - "107"
+      - "568"
+    volumes:
+      - /mnt/main-pool/apps/jellyfin/config:/config
+      - /mnt/main-pool/apps/jellyfin/cache:/cache
+      - type: bind
+        source: /mnt/media-pool/media
+        target: /media
+      - type: tmpfs
+        target: /config/transcodes
+        tmpfs:
+          mode: 511
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.jonicho.net
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities:
+                - gpu
+    networks:
+      - caddy
+networks:
+  caddy:
+    external: true

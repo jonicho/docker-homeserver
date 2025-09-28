@@ -1,0 +1,18 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome:latest
+    restart: unless-stopped
+    volumes:
+      - /mnt/main-pool/apps/adguardhome/conf:/opt/adguardhome/conf
+      - /mnt/main-pool/apps/adguardhome/work:/opt/adguardhome/work
+    ports:
+      - 192.168.1.100:53:53/tcp
+      - 192.168.1.100:53:53/udp
+    networks:
+      - caddy
+    environment:
+      - TZ="Europe/Berlin"
+    user: 568:568
+networks:
+  caddy:
+    external: true

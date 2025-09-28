@@ -1,0 +1,37 @@
+services:
+  wireguard:
+    image: linuxserver/wireguard:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      #- PUID=568
+      #- PGID=568
+      - TZ=Europe/Berlin
+    volumes:
+      - ./wireguard/:/config/wg_confs/:ro
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    networks:
+      - caddy
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    user: 568:568
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./caddy/:/etc/caddy/
+      - /mnt/main-pool/apps/caddy/data:/data
+    network_mode: service:wireguard
+    environment:
+      - TZ="Europe/Berlin"
+      - DOMAIN=jonicho.net
+      - OLD_NEXTCLOUD_DOMAIN=jonas-keller.ddns.net
+networks:
+  caddy:
+    name: caddy

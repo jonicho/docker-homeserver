@@ -1,0 +1,17 @@
+services:
+  audiobookshelf:
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    restart: unless-stopped
+    user: 568:568
+    networks:
+      - caddy
+    volumes:
+      - /mnt/media-pool/media/Audiobooks:/audiobooks
+      - /mnt/media-pool/media/Podcasts:/podcasts
+      - /mnt/main-pool/apps/audiobookshelf/config:/config
+      - /mnt/main-pool/apps/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ="Europe/Berlin"
+networks:
+  caddy:
+    external: true
