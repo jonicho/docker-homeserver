@@ -1,25 +1,22 @@
 services:
   jellyfin:
     image: jellyfin/jellyfin
-    user: 568:568
+    user: ${PUID:?}:${PGID:?}
     group_add:
-      - "44"
-      - "107"
-      - "568"
+      - ${GID_VIDEO:?}
+      - ${GID_RENDER:?}
+      - ${PGID:?}
     volumes:
-      - /mnt/main-pool/apps/jellyfin/config:/config
-      - /mnt/main-pool/apps/jellyfin/cache:/cache
-      - type: bind
-        source: /mnt/media-pool/media
-        target: /media
+      - ${APPDATA_STORAGE_PATH:?}/jellyfin/config:/config
+      - ${APPDATA_STORAGE_PATH:?}/jellyfin/cache:/cache
+      - ${MEDIA_STORAGE_PATH:?}/media:/media
       - type: tmpfs
         target: /config/transcodes
         tmpfs:
           mode: 511
     restart: unless-stopped
     environment:
-      - TZ=Europe/Berlin
-      - JELLYFIN_PublishedServerUrl=https://jellyfin.jonicho.net
+      - JELLYFIN_PublishedServerUrl=https://jellyfin.${DOMAIN:?}
     runtime: nvidia
     deploy:
       resources:

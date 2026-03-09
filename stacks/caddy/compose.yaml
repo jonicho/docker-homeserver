@@ -1,14 +1,29 @@
 services:
   wireguard:
-    image: linuxserver/wireguard:latest
+    build:
+      dockerfile_inline: |
+        FROM linuxserver/wireguard:latest
+        RUN apk add --no-cache envsubst
+      pull: true
     cap_add:
       - NET_ADMIN
     environment:
-      #- PUID=568
-      #- PGID=568
-      - TZ=Europe/Berlin
+      - PUID=${PUID:?}
+      - PGID=${PGID:?}
+      - DOMAIN=${DOMAIN:?}
+      - HOME_NETWORK=${HOME_NETWORK:?}
+      - WG_PRIVATE_KEY=${WG_PRIVATE_KEY:?}
+      - WG_GATEWAY_PUBLIC_KEY=${WG_GATEWAY_PUBLIC_KEY:?}
+      - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
     volumes:
-      - ./wireguard/:/config/wg_confs/:ro
+      - ./wireguard/ifscript.sh:/ifscript.sh/:ro
+      - ./wireguard/wg0.conf.template:/wg0.conf.template:ro
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "mkdir -p /config/wg_confs && envsubst < /wg0.conf.template > /config/wg_confs/wg0.conf && exec /init",
+      ]
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
@@ -18,20 +33,24 @@ services:
       - 443:443/udp
     networks:
       - caddy
+    dns:
+      # set dns to cloudflare so the domain for the wireguard endpoint resolves correctly,
+      # even if the domain is rewritten to the local server address locally
+      - 1.1.1.1
   caddy:
     image: caddy:latest
     restart: unless-stopped
-    user: 568:568
+    user: ${PUID:?}:${PGID:?}
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./caddy/:/etc/caddy/
-      - /mnt/main-pool/apps/caddy/data:/data
+      - ./caddy/:/etc/caddy/:ro
+      - ${APPDATA_STORAGE_PATH:?}/caddy/data:/data
     network_mode: service:wireguard
     environment:
-      - TZ="Europe/Berlin"
-      - DOMAIN=jonicho.net
-      - OLD_NEXTCLOUD_DOMAIN=jonas-keller.ddns.net
+      - DOMAIN=${DOMAIN:?}
+      - OLD_NEXTCLOUD_DOMAIN=${OLD_NEXTCLOUD_DOMAIN:?}
+      - HOME_NETWORK=${HOME_NETWORK:?}
 networks:
   caddy:
     name: caddy

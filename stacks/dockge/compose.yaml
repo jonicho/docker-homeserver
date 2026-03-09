@@ -2,18 +2,17 @@ services:
   dockge:
     image: louislam/dockge:1
     restart: unless-stopped
-    user: 950:950
+    user: ${PUID:?}:${PGID:?}
     group_add:
-      - 999
+      - ${GID_DOCKER:?}
     ports:
       - 82:5001
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/main-pool/apps/dockge/data:/app/data
-      - /mnt/main-pool/stacks/:/mnt/main-pool/stacks/
+      - ${APPDATA_STORAGE_PATH:?}/dockge/data:/app/data
+      - ${DOCKGE_STACKS_DIR:?}:${DOCKGE_STACKS_DIR:?}:ro
     environment:
-      - DOCKGE_STACKS_DIR=/mnt/main-pool/stacks/
-      - TZ="Europe/Berlin"
+      - DOCKGE_STACKS_DIR=${DOCKGE_STACKS_DIR:?}
       - DOCKGE_ENABLE_CONSOLE=true
     networks:
       - caddy

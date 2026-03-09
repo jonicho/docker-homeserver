@@ -1,0 +1,12 @@
+[Interface]
+PrivateKey = ${WG_PRIVATE_KEY}
+Address = 10.0.0.2
+
+PostUp = /ifscript.sh %i up
+PreDown = /ifscript.sh %i down
+
+[Peer]
+PublicKey = ${WG_GATEWAY_PUBLIC_KEY}
+PresharedKey = ${WG_PRESHARED_KEY}
+AllowedIPs = 0.0.0.0/0
+Endpoint = ${DOMAIN}:51821

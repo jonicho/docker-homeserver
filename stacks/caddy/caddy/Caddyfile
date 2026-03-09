@@ -4,13 +4,13 @@
 
 (block_external) {
 	@is_external {
-		not remote_ip 192.168.1.0/24
+		not remote_ip {$HOME_NETWORK}
 	}
 	abort @is_external
 }
 
 nextcloud.{$DOMAIN} {
-	reverse_proxy 192.168.1.100:30027
+	reverse_proxy {$HOST_IP}:30027
 }
 {$OLD_NEXTCLOUD_DOMAIN} {
 	redir https://nextcloud.{$DOMAIN}{uri} permanent
@@ -37,7 +37,7 @@ adguard-home.{$DOMAIN} {
 }
 truenas.{$DOMAIN} {
 	import block_external
-	reverse_proxy 192.168.1.100:81
+	reverse_proxy {$HOST_IP}:81
 }
 dockge.{$DOMAIN} {
 	import block_external
@@ -47,4 +47,3 @@ qbittorrent.{$DOMAIN} {
 	import block_external
 	reverse_proxy qbittorrent-vpn-1
 }
-

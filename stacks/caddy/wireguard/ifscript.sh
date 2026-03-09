@@ -10,7 +10,7 @@ interface=$1
 action=$2
 
 droute=$(ip route | grep default | awk '{print $3}')
-homenet=192.168.1.0/24
+homenet=$HOME_NETWORK
 dockernet=172.16.0.0/12
 
 if [[ "$action" = "up" ]]; then
