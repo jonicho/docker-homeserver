@@ -8,6 +8,8 @@ services:
     ports:
       - ${HOST_IP:?}:53:53/tcp
       - ${HOST_IP:?}:53:53/udp
+    environment:
+      - TZ=${TZ:?}
     networks:
       - caddy
     user: ${PUID:?}:${PGID:?}

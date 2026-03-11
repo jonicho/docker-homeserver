@@ -3,6 +3,7 @@ services:
     image: fallenbagel/jellyseerr:latest
     user: ${PUID:?}:${PGID:?}
     environment:
+      - TZ=${TZ:?}
       - PORT=80
     volumes:
       - ${APPDATA_STORAGE_PATH:?}/jellyseerr/config:/app/config

@@ -10,6 +10,7 @@ services:
     environment:
       - PUID=${PUID:?}
       - PGID=${PGID:?}
+      - TZ=${TZ:?}
       - DOMAIN=${DOMAIN:?}
       - HOME_NETWORK=${HOME_NETWORK:?}
       - WG_PRIVATE_KEY=${WG_PRIVATE_KEY:?}
@@ -48,6 +49,7 @@ services:
       - ${APPDATA_STORAGE_PATH:?}/caddy/data:/data
     network_mode: service:wireguard
     environment:
+      - TZ=${TZ:?}
       - DOMAIN=${DOMAIN:?}
       - OLD_NEXTCLOUD_DOMAIN=${OLD_NEXTCLOUD_DOMAIN:?}
       - HOME_NETWORK=${HOME_NETWORK:?}

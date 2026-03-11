@@ -10,6 +10,8 @@ services:
       - ${MEDIA_STORAGE_PATH:?}/media/Podcasts:/podcasts
       - ${APPDATA_STORAGE_PATH:?}/audiobookshelf/config:/config
       - ${APPDATA_STORAGE_PATH:?}/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=${TZ:?}
 networks:
   caddy:
     external: true

@@ -12,6 +12,7 @@ services:
       - ${APPDATA_STORAGE_PATH:?}/dockge/data:/app/data
       - ${DOCKGE_STACKS_DIR:?}:${DOCKGE_STACKS_DIR:?}:ro
     environment:
+      - TZ=${TZ:?}
       - DOCKGE_STACKS_DIR=${DOCKGE_STACKS_DIR:?}
       - DOCKGE_ENABLE_CONSOLE=true
     networks:

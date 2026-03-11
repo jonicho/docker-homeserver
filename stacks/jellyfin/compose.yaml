@@ -16,6 +16,7 @@ services:
           mode: 511
     restart: unless-stopped
     environment:
+      - TZ=${TZ:?}
       - JELLYFIN_PublishedServerUrl=https://jellyfin.${DOMAIN:?}
     runtime: nvidia
     deploy:
