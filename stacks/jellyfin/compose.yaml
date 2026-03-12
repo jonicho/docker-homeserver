@@ -18,6 +18,8 @@ services:
     environment:
       - TZ=${TZ:?}
       - JELLYFIN_PublishedServerUrl=https://jellyfin.${DOMAIN:?}
+    ports:
+      - 7359:7359/udp # client discovery
     runtime: nvidia
     deploy:
       resources:
