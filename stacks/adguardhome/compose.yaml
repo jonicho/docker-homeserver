@@ -6,8 +6,9 @@ services:
       - ${APPDATA_STORAGE_PATH:?}/adguardhome/conf:/opt/adguardhome/conf
       - ${APPDATA_STORAGE_PATH:?}/adguardhome/work:/opt/adguardhome/work
     ports:
-      - ${HOST_IP:?}:53:53/tcp
-      - ${HOST_IP:?}:53:53/udp
+      - ${HOST_IP:?}:53:53/tcp # DNS
+      - ${HOST_IP:?}:53:53/udp # DNS
+      - 3000:3000/tcp # initial setup
     environment:
       - TZ=${TZ:?}
     networks:
