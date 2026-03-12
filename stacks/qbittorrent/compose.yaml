@@ -3,7 +3,6 @@ services:
     image: thrnz/docker-wireguard-pia
     restart: unless-stopped
     volumes:
-      - ${APPDATA_STORAGE_PATH:?}/qbittorrent/pia:/pia # Auth token is stored here
       - ./update-port-qbt.sh:/update-port-qbt.sh:ro
     cap_add:
       - NET_ADMIN
