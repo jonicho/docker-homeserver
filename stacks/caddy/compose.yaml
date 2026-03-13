@@ -1,6 +1,6 @@
 services:
   wireguard:
-    image: linuxserver/wireguard:latest
+    image: linuxserver/wireguard:1.0.20250521-r1-ls105@sha256:fd4a95e233a90070372ccf7f488ef005932eb16ca1b0bd40afbdbb3dae9a3951
     cap_add:
       - NET_ADMIN
     environment:
@@ -35,7 +35,7 @@ services:
       # even if the domain is rewritten to the local server address locally
       - 1.1.1.1
   caddy:
-    image: caddy:latest
+    image: caddy:2.11.2-alpine@sha256:fce4f15aad23222c0ac78a1220adf63bae7b94355d5ea28eee53910624acedfa
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     cap_add:

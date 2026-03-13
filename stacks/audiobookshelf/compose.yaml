@@ -1,6 +1,6 @@
 services:
   audiobookshelf:
-    image: ghcr.io/advplyr/audiobookshelf:latest
+    image: advplyr/audiobookshelf:2.33.0@sha256:41047b9985f9c38c92ae8b4b34ffd1d77fca36efdfe49c6b962ff2fc8ccae1e9
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     networks:

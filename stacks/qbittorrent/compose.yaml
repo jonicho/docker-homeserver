@@ -1,6 +1,6 @@
 services:
   vpn:
-    image: thrnz/docker-wireguard-pia
+    image: thrnz/docker-wireguard-pia:20260301_master_eb24c58@sha256:061119981b64a0ce7f8baf46efe8dc9658318680378fe6872955316da800b94f
     restart: unless-stopped
     volumes:
       - ./update-port-qbt.sh:/update-port-qbt.sh:ro
@@ -32,7 +32,7 @@ services:
     networks:
       - caddy
   qbittorrent:
-    image: qbittorrentofficial/qbittorrent-nox:latest
+    image: qbittorrentofficial/qbittorrent-nox:5.1.4-2@sha256:85fe2690f418dabffc4907276b3cdffcb7880c7114157b32f932d3b97bac45af
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     environment:
