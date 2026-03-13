@@ -44,6 +44,7 @@ services:
     volumes:
       - ${APPDATA_STORAGE_PATH:?}/qbittorrent/qbt-config:/config
       - ${MEDIA_STORAGE_PATH:?}/media:/mnt/nas-media
+      - ${MEDIA_STORAGE_PATH:?}/media:/mnt/media
     network_mode: service:vpn
     depends_on:
       vpn:
