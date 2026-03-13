@@ -53,6 +53,7 @@ services:
       - DOMAIN=${DOMAIN:?}
       - OLD_NEXTCLOUD_DOMAIN=${OLD_NEXTCLOUD_DOMAIN:?}
       - HOME_NETWORK=${HOME_NETWORK:?}
+      - HOST_IP=${HOST_IP:?}
 networks:
   caddy:
     name: caddy
