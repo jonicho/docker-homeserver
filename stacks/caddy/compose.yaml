@@ -1,10 +1,6 @@
 services:
   wireguard:
-    build:
-      dockerfile_inline: |
-        FROM linuxserver/wireguard:latest
-        RUN apk add --no-cache envsubst
-      pull: true
+    image: linuxserver/wireguard:latest
     cap_add:
       - NET_ADMIN
     environment:
@@ -23,7 +19,7 @@ services:
       [
         "bash",
         "-c",
-        "mkdir -p /config/wg_confs && envsubst < /wg0.conf.template > /config/wg_confs/wg0.conf && exec /init",
+        "apk add --no-cache envsubst && mkdir -p /config/wg_confs && envsubst < /wg0.conf.template > /config/wg_confs/wg0.conf && exec /init",
       ]
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
