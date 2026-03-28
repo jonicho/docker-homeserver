@@ -1,0 +1,29 @@
+services:
+  wireguard:
+    image: linuxserver/wireguard:1.0.20250521-r1-ls105@sha256:fd4a95e233a90070372ccf7f488ef005932eb16ca1b0bd40afbdbb3dae9a3951
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=${PUID:?}
+      - PGID=${PGID:?}
+      - TZ=${TZ:?}
+      - WG_PRIVATE_KEY=${WG_PRIVATE_KEY:?}
+      - WG_PEER_PUBLIC_KEY=${WG_PEER_PUBLIC_KEY:?}
+      - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
+    volumes:
+      - ./ifscript.sh:/ifscript.sh/:ro
+      - ./wg0.conf.template:/wg0.conf.template:ro
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "apk add --no-cache envsubst && mkdir -p /config/wg_confs && envsubst < /wg0.conf.template > /config/wg_confs/wg0.conf && exec /init",
+      ]
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+      - 51821:51821/udp
+    sysctls:
+      - net.ipv4.ip_forward=1
+    restart: unless-stopped
