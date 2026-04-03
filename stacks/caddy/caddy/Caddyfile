@@ -100,6 +100,9 @@ homeassistant.{$DOMAIN} {
 		reverse_proxy {$HOST_IP}:8123
 	}
 }
+forgejo.{$DOMAIN} {
+	reverse_proxy forgejo:3000
+}
 adguardhome.{$DOMAIN} {
 	log access
 	route {
