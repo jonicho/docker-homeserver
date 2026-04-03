@@ -31,6 +31,9 @@ jellyseer.{$DOMAIN} {
 audiobookshelf.{$DOMAIN} {
 	reverse_proxy audiobookshelf-audiobookshelf-1
 }
+librespeed.{$DOMAIN} {
+	reverse_proxy librespeed-librespeed-1:8080
+}
 adguardhome.{$DOMAIN} {
 	import block_external
 	reverse_proxy adguardhome-adguardhome-1
