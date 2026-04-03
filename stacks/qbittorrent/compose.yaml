@@ -1,6 +1,6 @@
 services:
   vpn:
-    image: thrnz/docker-wireguard-pia:20260301_master_eb24c58@sha256:061119981b64a0ce7f8baf46efe8dc9658318680378fe6872955316da800b94f
+    image: thrnz/docker-wireguard-pia:20260401_master_eb24c58@sha256:b1c7d227916076115d8fbc29cb7a18b140cb45afc3dd966f7775fbca0c397e9f
     restart: unless-stopped
     volumes:
       - ./update-port-qbt.sh:/update-port-qbt.sh:ro
