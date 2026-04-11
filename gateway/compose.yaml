@@ -11,8 +11,18 @@ services:
       - WG_PEER_PUBLIC_KEY=${WG_PEER_PUBLIC_KEY:?}
       - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
     volumes:
-      - ./ifscript.sh:/ifscript.sh/:ro
-      - ./wg0.conf.template:/wg0.conf.template:ro
+      - type: bind
+        source: ./ifscript.sh
+        target: /ifscript.sh/
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./wg0.conf.template
+        target: /wg0.conf.template
+        read_only: true
+        bind:
+          create_host_path: false
     entrypoint:
       [
         "bash",

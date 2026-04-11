@@ -6,10 +6,26 @@ services:
     networks:
       - caddy
     volumes:
-      - ${MEDIA_STORAGE_PATH:?}/media/Audiobooks:/audiobooks
-      - ${MEDIA_STORAGE_PATH:?}/media/Podcasts:/podcasts
-      - ${APPDATA_STORAGE_PATH:?}/audiobookshelf/config:/config
-      - ${APPDATA_STORAGE_PATH:?}/audiobookshelf/metadata:/metadata
+      - type: bind
+        source: ${MEDIA_STORAGE_PATH:?}/media/Audiobooks
+        target: /audiobooks
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${MEDIA_STORAGE_PATH:?}/media/Podcasts
+        target: /podcasts
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/audiobookshelf/config
+        target: /config
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/audiobookshelf/metadata
+        target: /metadata
+        bind:
+          create_host_path: false
     environment:
       - TZ=${TZ:?}
 networks:

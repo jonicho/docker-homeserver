@@ -13,8 +13,18 @@ services:
       - WG_GATEWAY_PUBLIC_KEY=${WG_GATEWAY_PUBLIC_KEY:?}
       - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
     volumes:
-      - ./wireguard/ifscript.sh:/ifscript.sh/:ro
-      - ./wireguard/wg0.conf.template:/wg0.conf.template:ro
+      - type: bind
+        source: ./wireguard/ifscript.sh
+        target: /ifscript.sh/
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./wireguard/wg0.conf.template
+        target: /wg0.conf.template
+        read_only: true
+        bind:
+          create_host_path: false
     entrypoint:
       [
         "bash",
@@ -41,8 +51,17 @@ services:
     cap_add:
       - NET_ADMIN
     volumes:
-      - ./caddy/:/etc/caddy/:ro
-      - ${APPDATA_STORAGE_PATH:?}/caddy/data:/data
+      - type: bind
+        source: ./caddy/
+        target: /etc/caddy/
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/caddy/data
+        target: /data
+        bind:
+          create_host_path: false
     network_mode: service:wireguard
     environment:
       - TZ=${TZ:?}

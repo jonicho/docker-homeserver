@@ -7,9 +7,21 @@ services:
       - ${GID_RENDER:?}
       - ${PGID:?}
     volumes:
-      - ${APPDATA_STORAGE_PATH:?}/jellyfin/config:/config
-      - ${APPDATA_STORAGE_PATH:?}/jellyfin/cache:/cache
-      - ${MEDIA_STORAGE_PATH:?}/media:/media
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/jellyfin/config
+        target: /config
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/jellyfin/cache
+        target: /cache
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${MEDIA_STORAGE_PATH:?}/media
+        target: /media
+        bind:
+          create_host_path: false
       - type: tmpfs
         target: /config/transcodes
         tmpfs:

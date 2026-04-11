@@ -3,7 +3,12 @@ services:
     image: thrnz/docker-wireguard-pia:20260401_master_eb24c58@sha256:b1c7d227916076115d8fbc29cb7a18b140cb45afc3dd966f7775fbca0c397e9f
     restart: unless-stopped
     volumes:
-      - ./update-port-qbt.sh:/update-port-qbt.sh:ro
+      - type: bind
+        source: ./update-port-qbt.sh
+        target: /update-port-qbt.sh
+        read_only: true
+        bind:
+          create_host_path: false
     cap_add:
       - NET_ADMIN
     environment:
@@ -42,9 +47,21 @@ services:
     tmpfs:
       - /tmp
     volumes:
-      - ${APPDATA_STORAGE_PATH:?}/qbittorrent/qbt-config:/config
-      - ${MEDIA_STORAGE_PATH:?}/media:/mnt/nas-media
-      - ${MEDIA_STORAGE_PATH:?}/media:/mnt/media
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/qbittorrent/qbt-config
+        target: /config
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${MEDIA_STORAGE_PATH:?}/media
+        target: /mnt/nas-media
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${MEDIA_STORAGE_PATH:?}/media
+        target: /mnt/media
+        bind:
+          create_host_path: false
     network_mode: service:vpn
     depends_on:
       vpn:

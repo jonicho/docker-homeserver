@@ -8,9 +8,22 @@ services:
     ports:
       - 82:5001
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${APPDATA_STORAGE_PATH:?}/dockge/data:/app/data
-      - ${DOCKGE_STACKS_DIR:?}:${DOCKGE_STACKS_DIR:?}:ro
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/dockge/data
+        target: /app/data
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${DOCKGE_STACKS_DIR:?}
+        target: ${DOCKGE_STACKS_DIR:?}
+        read_only: true
+        bind:
+          create_host_path: false
     environment:
       - TZ=${TZ:?}
       - DOCKGE_STACKS_DIR=${DOCKGE_STACKS_DIR:?}

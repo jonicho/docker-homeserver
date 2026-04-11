@@ -6,7 +6,11 @@ services:
       - TZ=${TZ:?}
       - PORT=80
     volumes:
-      - ${APPDATA_STORAGE_PATH:?}/seerr/config:/app/config
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/seerr/config
+        target: /app/config
+        bind:
+          create_host_path: false
     restart: unless-stopped
     networks:
       - caddy
