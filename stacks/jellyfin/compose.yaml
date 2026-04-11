@@ -29,8 +29,8 @@ services:
           mode: 511
     restart: unless-stopped
     environment:
-      - TZ=${TZ:?}
-      - JELLYFIN_PublishedServerUrl=https://jellyfin.${DOMAIN:?}
+      TZ: ${TZ:?}
+      JELLYFIN_PublishedServerUrl: https://jellyfin.${DOMAIN:?}
     ports:
       - 7359:7359/udp # client discovery
     runtime: nvidia

@@ -13,14 +13,14 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - TZ=${TZ:?}
-      - LOC=swiss
-      - LOCAL_NETWORK=172.16.0.0/12,${HOME_NETWORK:?}
-      - PORT_FORWARDING=1
-      - PORT_SCRIPT=/update-port-qbt.sh
-      - EXIT_ON_FATAL=1
-      - USER=${PIA_USER:?}
-      - PASS=${PIA_PASS:?}
+      TZ: ${TZ:?}
+      LOC: swiss
+      LOCAL_NETWORK: 172.16.0.0/12,${HOME_NETWORK:?}
+      PORT_FORWARDING: "1"
+      PORT_SCRIPT: /update-port-qbt.sh
+      EXIT_ON_FATAL: "1"
+      USER: ${PIA_USER:?}
+      PASS: ${PIA_PASS:?}
     sysctls:
       # The wg-quick script tries to set this when setting up routing, however this requires running the container
       # with the --privileged flag set. Setting it here instead if needed means the container can be run with lower
@@ -43,9 +43,9 @@ services:
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     environment:
-      - TZ=${TZ:?}
-      - QBT_LEGAL_NOTICE=confirm
-      - QBT_WEBUI_PORT=80
+      TZ: ${TZ:?}
+      QBT_LEGAL_NOTICE: confirm
+      QBT_WEBUI_PORT: "80"
     tmpfs:
       - /tmp
     volumes:

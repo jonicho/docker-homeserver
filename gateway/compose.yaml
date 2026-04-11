@@ -5,12 +5,12 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - PUID=${PUID:?}
-      - PGID=${PGID:?}
-      - TZ=${TZ:?}
-      - WG_PRIVATE_KEY=${WG_PRIVATE_KEY:?}
-      - WG_PEER_PUBLIC_KEY=${WG_PEER_PUBLIC_KEY:?}
-      - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
+      PUID: ${PUID:?}
+      PGID: ${PGID:?}
+      TZ: ${TZ:?}
+      WG_PRIVATE_KEY: ${WG_PRIVATE_KEY:?}
+      WG_PEER_PUBLIC_KEY: ${WG_PEER_PUBLIC_KEY:?}
+      WG_PRESHARED_KEY: ${WG_PRESHARED_KEY:?}
     volumes:
       - type: bind
         source: ./ifscript.sh

@@ -19,7 +19,7 @@ services:
       - ${HOST_IP:?}:53:53/udp # DNS
       - 3000:3000/tcp # initial setup
     environment:
-      - TZ=${TZ:?}
+      TZ: ${TZ:?}
     networks:
       - caddy
     user: ${PUID:?}:${PGID:?}

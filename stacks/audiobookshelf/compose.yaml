@@ -28,7 +28,7 @@ services:
         bind:
           create_host_path: false
     environment:
-      - TZ=${TZ:?}
+      TZ: ${TZ:?}
 networks:
   caddy:
     external: true

@@ -5,14 +5,14 @@ services:
     cap_add:
       - NET_ADMIN
     environment:
-      - PUID=${PUID:?}
-      - PGID=${PGID:?}
-      - TZ=${TZ:?}
-      - DOMAIN=${DOMAIN:?}
-      - HOME_NETWORK=${HOME_NETWORK:?}
-      - WG_PRIVATE_KEY=${WG_PRIVATE_KEY:?}
-      - WG_GATEWAY_PUBLIC_KEY=${WG_GATEWAY_PUBLIC_KEY:?}
-      - WG_PRESHARED_KEY=${WG_PRESHARED_KEY:?}
+      PUID: ${PUID:?}
+      PGID: ${PGID:?}
+      TZ: ${TZ:?}
+      DOMAIN: ${DOMAIN:?}
+      HOME_NETWORK: ${HOME_NETWORK:?}
+      WG_PRIVATE_KEY: ${WG_PRIVATE_KEY:?}
+      WG_GATEWAY_PUBLIC_KEY: ${WG_GATEWAY_PUBLIC_KEY:?}
+      WG_PRESHARED_KEY: ${WG_PRESHARED_KEY:?}
     volumes:
       - type: bind
         source: ./wireguard/ifscript.sh
@@ -66,11 +66,11 @@ services:
           create_host_path: false
     network_mode: service:wireguard
     environment:
-      - TZ=${TZ:?}
-      - DOMAIN=${DOMAIN:?}
-      - OLD_NEXTCLOUD_DOMAIN=${OLD_NEXTCLOUD_DOMAIN:?}
-      - HOME_NETWORK=${HOME_NETWORK:?}
-      - HOST_IP=${HOST_IP:?}
+      TZ: ${TZ:?}
+      DOMAIN: ${DOMAIN:?}
+      OLD_NEXTCLOUD_DOMAIN: ${OLD_NEXTCLOUD_DOMAIN:?}
+      HOME_NETWORK: ${HOME_NETWORK:?}
+      HOST_IP: ${HOST_IP:?}
 networks:
   caddy:
     name: caddy
