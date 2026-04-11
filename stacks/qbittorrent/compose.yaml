@@ -1,5 +1,6 @@
 services:
   vpn:
+    container_name: qbittorrent_vpn
     image: thrnz/docker-wireguard-pia:20260401_master_eb24c58@sha256:b1c7d227916076115d8fbc29cb7a18b140cb45afc3dd966f7775fbca0c397e9f
     restart: unless-stopped
     volumes:
@@ -37,6 +38,7 @@ services:
     networks:
       - caddy
   qbittorrent:
+    container_name: qbittorrent
     image: qbittorrentofficial/qbittorrent-nox:5.1.4-2@sha256:85fe2690f418dabffc4907276b3cdffcb7880c7114157b32f932d3b97bac45af
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}

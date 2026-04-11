@@ -17,10 +17,10 @@ nextcloud.{$DOMAIN} {
 }
 
 jellyfin.{$DOMAIN} {
-	reverse_proxy jellyfin-jellyfin-1:8096
+	reverse_proxy jellyfin:8096
 }
 seerr.{$DOMAIN} {
-	reverse_proxy seerr-seerr-1
+	reverse_proxy seerr
 }
 jellyseerr.{$DOMAIN} {
 	redir https://seerr.{$DOMAIN}{uri} permanent
@@ -29,14 +29,14 @@ jellyseer.{$DOMAIN} {
 	redir https://seerr.{$DOMAIN}{uri} permanent
 }
 audiobookshelf.{$DOMAIN} {
-	reverse_proxy audiobookshelf-audiobookshelf-1
+	reverse_proxy audiobookshelf
 }
 librespeed.{$DOMAIN} {
-	reverse_proxy librespeed-librespeed-1:8080
+	reverse_proxy librespeed:8080
 }
 adguardhome.{$DOMAIN} {
 	import block_external
-	reverse_proxy adguardhome-adguardhome-1
+	reverse_proxy adguardhome
 }
 adguard-home.{$DOMAIN} {
 	redir https://adguardhome.{$DOMAIN}{uri} permanent
@@ -47,9 +47,9 @@ truenas.{$DOMAIN} {
 }
 dockge.{$DOMAIN} {
 	import block_external
-	reverse_proxy dockge-dockge-1:5001
+	reverse_proxy dockge:5001
 }
 qbittorrent.{$DOMAIN} {
 	import block_external
-	reverse_proxy qbittorrent-vpn-1
+	reverse_proxy qbittorrent_vpn
 }
