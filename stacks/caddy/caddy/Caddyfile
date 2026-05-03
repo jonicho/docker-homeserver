@@ -53,3 +53,7 @@ qbittorrent.{$DOMAIN} {
 	import block_external
 	reverse_proxy qbittorrent_vpn
 }
+paperless.{$DOMAIN} {
+	import block_external
+	reverse_proxy paperless:8000
+}

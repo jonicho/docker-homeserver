@@ -1,0 +1,79 @@
+services:
+  broker:
+    container_name: paperless_broker
+    image: redis:8.6.2@sha256:832d7785830f3f4b559300e6191fc914b15642c1935252338825cf4332200148
+    user: ${PUID:?}:${PGID:?}
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/redis
+        target: /data
+        bind:
+          create_host_path: false
+    environment:
+      TZ: ${TZ:?}
+    networks:
+      - paperless
+  db:
+    container_name: paperless_db
+    image: postgres:18.3@sha256:78481659c47e862334611ccdaf7c369c986b3046da9857112f3b309114a65fb4
+    user: ${PUID:?}:${PGID:?}
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/postgres
+        target: /var/lib/postgresql
+        bind:
+          create_host_path: false
+    environment:
+      TZ: ${TZ:?}
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: paperless
+    networks:
+      - paperless
+  webserver:
+    container_name: paperless
+    image: paperlessngx/paperless-ngx:2.20.15@sha256:6c86cad803970ea782683a8e80e7403444c5bf3cf70de63b4d3c8e87500db92f
+    user: ${PUID:?}:${PGID:?}
+    restart: unless-stopped
+    depends_on:
+      - db
+      - broker
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/data
+        target: /usr/src/paperless/data
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/media
+        target: /usr/src/paperless/media
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/export
+        target: /usr/src/paperless/export
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/consume
+        target: /usr/src/paperless/consume
+        bind:
+          create_host_path: false
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379
+      PAPERLESS_DBHOST: db
+      PAPERLESS_URL: https://paperless.${DOMAIN}
+      TZ: ${TZ:?}
+      PAPERLESS_TIME_ZONE: ${TZ:?}
+      PAPERLESS_OCR_LANGUAGE: deu+eng
+      PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY:?}
+    networks:
+      - paperless
+      - caddy
+
+networks:
+  paperless:
+  caddy:
+    external: true
