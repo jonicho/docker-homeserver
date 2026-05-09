@@ -34,6 +34,9 @@ audiobookshelf.{$DOMAIN} {
 librespeed.{$DOMAIN} {
 	reverse_proxy librespeed:8080
 }
+hortusfox.{$DOMAIN} {
+	reverse_proxy hortusfox
+}
 adguardhome.{$DOMAIN} {
 	import block_external
 	reverse_proxy adguardhome

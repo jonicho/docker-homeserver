@@ -1,0 +1,72 @@
+services:
+  hortusfox:
+    container_name: hortusfox
+    image: ghcr.io/danielbrendel/hortusfox-web:v5.8@sha256:62fdac133dddda643d4e533de58068dc25eef7bb70f5607a0dd7a16c01049668
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/img
+        target: /var/www/html/public/img
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/logs
+        target: /var/www/html/app/logs
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/backup
+        target: /var/www/html/public/backup
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/themes
+        target: /var/www/html/public/themes
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/migrations
+        target: /var/www/html/app/migrations
+        bind:
+          create_host_path: false
+    environment:
+      TZ: ${TZ:?}
+      APP_ADMIN_EMAIL: ${HORTUSFOX_ADMIN_EMAIL:?}
+      APP_ADMIN_PASSWORD: ${HORTUSFOX_ADMIN_PASSWORD:?}
+      APP_TIMEZONE: ${TZ:?}
+      APP_UPDATEDEPS: "false"
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: hortusfox
+      DB_USERNAME: hortusfox
+      DB_PASSWORD: ${HORTUSFOX_DB_PASSWORD:?}
+      DB_CHARSET: "utf8mb4"
+    networks:
+      - hortusfox
+      - caddy
+
+  db:
+    container_name: hortusfox_db
+    image: mariadb:12.2.2@sha256:e0236fc6386e7eacd9359e59d0a078bd7aa0d18280d36d13061121bedeaee903
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/hortusfox/db
+        target: /var/lib/mysql
+        bind:
+          create_host_path: false
+    environment:
+      TZ: ${TZ:?}
+      MARIADB_ROOT_PASSWORD: ${HORTUSFOX_DB_ROOT_PASSWORD:?}
+      MARIADB_DATABASE: hortusfox
+      MARIADB_USER: hortusfox
+      MARIADB_PASSWORD: ${HORTUSFOX_DB_PASSWORD:?}
+    networks:
+      - hortusfox
+
+networks:
+  hortusfox:
+  caddy:
+    external: true
