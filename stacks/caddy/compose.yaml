@@ -1,7 +1,7 @@
 services:
   wireguard:
     container_name: caddy_wireguard
-    image: linuxserver/wireguard:1.0.20250521-r1-ls110@sha256:0291ea6379ffb2eed1296676853e24b2774a6b2dc820771b350249d6fe95c6ca
+    image: linuxserver/wireguard:1.0.20250521-r1-ls111@sha256:2c0b2809181e71521733973a73482aa1e0ae2c14809a09a5270b209be03b60aa
     cap_add:
       - NET_ADMIN
     environment:
