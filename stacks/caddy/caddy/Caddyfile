@@ -1,5 +1,14 @@
 {
 	email jonas.r.keller@gmail.com
+
+	log access {
+		output file /var/log/caddy/access.log 
+	}
+	crowdsec {
+		api_url http://crowdsec:8080
+		api_key {$CROWDSEC_API_KEY}
+		appsec_url http://crowdsec:7422
+    }
 }
 
 (block_external) {
@@ -10,53 +19,129 @@
 }
 
 nextcloud.{$DOMAIN} {
-	reverse_proxy {$HOST_IP}:30027
+    log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy {$HOST_IP}:30027
+	}
 }
 {$OLD_NEXTCLOUD_DOMAIN} {
-	redir https://nextcloud.{$DOMAIN}{uri} permanent
+	log access
+	route {
+		crowdsec
+		appsec
+		redir https://nextcloud.{$DOMAIN}{uri} permanent
+	}
 }
 
 jellyfin.{$DOMAIN} {
-	reverse_proxy jellyfin:8096
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy jellyfin:8096
+	}
 }
 seerr.{$DOMAIN} {
-	reverse_proxy seerr
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy seerr
+	}
 }
 jellyseerr.{$DOMAIN} {
-	redir https://seerr.{$DOMAIN}{uri} permanent
+	log access
+	route {
+		crowdsec
+		appsec
+		redir https://seerr.{$DOMAIN}{uri} permanent
+	}
 }
 jellyseer.{$DOMAIN} {
-	redir https://seerr.{$DOMAIN}{uri} permanent
+	log access
+	route {
+		crowdsec
+		appsec
+		redir https://seerr.{$DOMAIN}{uri} permanent
+	}
 }
 audiobookshelf.{$DOMAIN} {
-	reverse_proxy audiobookshelf
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy audiobookshelf
+	}
 }
 librespeed.{$DOMAIN} {
-	reverse_proxy librespeed:8080
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy librespeed:8080
+	}
 }
 hortusfox.{$DOMAIN} {
-	reverse_proxy hortusfox
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy hortusfox
+	}
 }
 adguardhome.{$DOMAIN} {
-	import block_external
-	reverse_proxy adguardhome
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy adguardhome
+	}
 }
 adguard-home.{$DOMAIN} {
-	redir https://adguardhome.{$DOMAIN}{uri} permanent
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		redir https://adguardhome.{$DOMAIN}{uri} permanent
+	}
 }
 truenas.{$DOMAIN} {
-	import block_external
-	reverse_proxy {$HOST_IP}:81
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy {$HOST_IP}:81
+	}
 }
 dockge.{$DOMAIN} {
-	import block_external
-	reverse_proxy dockge:5001
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy dockge:5001
+	}
 }
 qbittorrent.{$DOMAIN} {
-	import block_external
-	reverse_proxy qbittorrent_vpn
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy qbittorrent_vpn
+	}
 }
 paperless.{$DOMAIN} {
-	import block_external
-	reverse_proxy paperless:8000
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy paperless:8000
+	}
 }

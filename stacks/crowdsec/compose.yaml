@@ -1,0 +1,38 @@
+services:
+  crowdsec:
+    container_name: crowdsec
+    image: crowdsecurity/crowdsec:v1.7.8@sha256:2f527c9bb8b367120eb08b82890aa912ce96bfa1ada93dda0721700e4b4e0dde
+    restart: unless-stopped
+    networks:
+      - crowdsec
+    volumes:
+      - type: bind
+        source: ./acquis.d
+        target: /etc/crowdsec/acquis.d
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/crowdsec/data
+        target: /var/lib/crowdsec/data
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/crowdsec/config
+        target: /etc/crowdsec
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/caddy/logs
+        target: /var/log/caddy
+        read_only: true
+        bind:
+          create_host_path: false
+    environment:
+      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules"
+      TZ: ${TZ:?}
+      BOUNCER_KEY_CADDY: ${CROWDSEC_API_KEY:?}
+
+networks:
+  crowdsec:
+    name: crowdsec

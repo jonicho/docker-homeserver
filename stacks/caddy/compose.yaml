@@ -41,13 +41,14 @@ services:
       - 443:443/udp
     networks:
       - caddy
+      - crowdsec
     dns:
       # set dns to cloudflare so the domain for the wireguard endpoint resolves correctly,
       # even if the domain is rewritten to the local server address locally
       - 1.1.1.1
   caddy:
     container_name: caddy
-    image: caddy:2.11.3-alpine@sha256:86deaf5e3d3408a6ccec08fbb79989783dd26e206ae10bcf78a801dc8c9ab794
+    build: ./caddybuild
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     cap_add:
@@ -64,6 +65,11 @@ services:
         target: /data
         bind:
           create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/caddy/logs
+        target: /var/log/caddy
+        bind:
+          create_host_path: false
     network_mode: service:wireguard
     environment:
       TZ: ${TZ:?}
@@ -71,6 +77,9 @@ services:
       OLD_NEXTCLOUD_DOMAIN: ${OLD_NEXTCLOUD_DOMAIN:?}
       HOME_NETWORK: ${HOME_NETWORK:?}
       HOST_IP: ${HOST_IP:?}
+      CROWDSEC_API_KEY: ${CROWDSEC_API_KEY:?}
 networks:
   caddy:
     name: caddy
+  crowdsec:
+    external: true
