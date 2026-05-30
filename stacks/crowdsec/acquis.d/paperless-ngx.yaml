@@ -1,0 +1,4 @@
+filenames:
+  - /var/log/paperless/*.log
+labels:
+  type: Paperless-ngx

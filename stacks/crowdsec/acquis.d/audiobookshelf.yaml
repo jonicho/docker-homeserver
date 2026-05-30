@@ -1,0 +1,5 @@
+filenames:
+  - /var/log/audiobookshelf/daily/*.txt
+  - /var/log/audiobookshelf/scans/*.txt
+labels:
+  type: audiobookshelf

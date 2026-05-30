@@ -28,8 +28,44 @@ services:
         read_only: true
         bind:
           create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/adguardhome/logs
+        target: /var/log/adguardhome
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/audiobookshelf/metadata/logs
+        target: /var/log/audiobookshelf
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/jellyfin/config/log
+        target: /var/log/jellyfin
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/paperless/data/log
+        target: /var/log/paperless
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/qbittorrent/qbt-config/qBittorrent/data/logs
+        target: /var/log/qbittorrent
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/seerr/config/logs
+        target: /var/log/seerr
+        read_only: true
+        bind:
+          create_host_path: false
     environment:
-      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules"
+      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules LePresidente/adguardhome plague-doctor/audiobookshelf LePresidente/jellyfin LePresidente/overseerr andreasbrett/paperless-ngx gilbsgilbs/qbittorrent"
       TZ: ${TZ:?}
       BOUNCER_KEY_CADDY: ${CROWDSEC_API_KEY:?}
 
