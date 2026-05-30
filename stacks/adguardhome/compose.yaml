@@ -14,18 +14,10 @@ services:
         target: /opt/adguardhome/work
         bind:
           create_host_path: false
-      - type: bind
-        source: ${APPDATA_STORAGE_PATH:?}/adguardhome/logs
-        target: /opt/adguardhome/logs
-        bind:
-          create_host_path: false
     ports:
       - ${HOST_IP:?}:53:53/tcp # DNS
       - ${HOST_IP:?}:53:53/udp # DNS
       - 3000:3000/tcp # initial setup
-    command:
-      - --logfile
-      - /opt/adguardhome/logs/AdGuardHome.log
     environment:
       TZ: ${TZ:?}
     networks:
