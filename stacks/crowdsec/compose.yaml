@@ -35,6 +35,12 @@ services:
         bind:
           create_host_path: false
       - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/homeassistant/config
+        target: /var/log/homeassistant
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
         source: ${APPDATA_STORAGE_PATH:?}/jellyfin/config/log
         target: /var/log/jellyfin
         read_only: true
@@ -59,7 +65,7 @@ services:
         bind:
           create_host_path: false
     environment:
-      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules plague-doctor/audiobookshelf LePresidente/jellyfin LePresidente/overseerr andreasbrett/paperless-ngx gilbsgilbs/qbittorrent"
+      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules plague-doctor/audiobookshelf crowdsecurity/home-assistant LePresidente/jellyfin LePresidente/overseerr andreasbrett/paperless-ngx gilbsgilbs/qbittorrent"
       TZ: ${TZ:?}
       BOUNCER_KEY_CADDY: ${CROWDSEC_API_KEY:?}
 

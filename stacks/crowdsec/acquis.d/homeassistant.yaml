@@ -1,0 +1,4 @@
+filenames:
+  - /var/log/homeassistant/home-assistant.log
+labels:
+  type: home-assistant

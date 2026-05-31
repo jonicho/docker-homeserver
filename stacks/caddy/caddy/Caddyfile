@@ -91,6 +91,15 @@ hortusfox.{$DOMAIN} {
 		reverse_proxy hortusfox
 	}
 }
+homeassistant.{$DOMAIN} {
+	log access
+	route {
+		import block_external
+		crowdsec
+		appsec
+		reverse_proxy homeassistant:8123
+	}
+}
 adguardhome.{$DOMAIN} {
 	log access
 	route {
