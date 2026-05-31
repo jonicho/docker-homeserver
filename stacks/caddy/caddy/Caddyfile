@@ -97,7 +97,7 @@ homeassistant.{$DOMAIN} {
 		import block_external
 		crowdsec
 		appsec
-		reverse_proxy homeassistant:8123
+		reverse_proxy {$HOST_IP}:8123
 	}
 }
 adguardhome.{$DOMAIN} {
