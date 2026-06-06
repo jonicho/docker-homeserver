@@ -20,6 +20,41 @@ services:
     environment:
       TZ: ${TZ:?}
 
+  matter-server:
+    container_name: homeassistant_matter_server
+    image: ghcr.io/matter-js/python-matter-server:8.1.2@sha256:6827e352011e2d8c2bde771e446fcf72acc49150ef66bad978816bac1762aad3
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/homeassistant/matter-server
+        target: /data
+        bind:
+          create_host_path: false
+
+  otbr:
+    container_name: homeassistant_otbr
+    # https://github.com/openthread/ot-br-posix/releases/tag/v2026.06.0
+    image: openthread/border-router:sha-c7164ef@sha256:3981a1da8b8d228165c82eedb9729613b8bc4485db0b3bdb4547690d543320dd
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - ${OT_RCP_DEVICE:?}:/dev/ttyACM0
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      OT_RCP_DEVICE: spinel+hdlc+uart:///dev/ttyACM0?uart-baudrate=460800
+      OT_INFRA_IF: ${OT_INFRA_IF:?}
+      OT_THREAD_IF: wpan0
+      OT_LOG_LEVEL: 7
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/homeassistant/otbr
+        target: /data
+        bind:
+          create_host_path: false
+
   mosquitto:
     container_name: homeassistant_mosquitto
     image: eclipse-mosquitto:2.1.2-alpine@sha256:a908c65cc8e67ec9d292ef27c2c0360dbaaee7eb1b935cdd194e67697f15dea1
