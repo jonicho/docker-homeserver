@@ -69,6 +69,7 @@ services:
       PAPERLESS_TIME_ZONE: ${TZ:?}
       PAPERLESS_OCR_LANGUAGE: deu+eng
       PAPERLESS_SECRET_KEY: ${PAPERLESS_SECRET_KEY:?}
+      PAPERLESS_CONSUMER_ENABLE_BARCODES: true
       PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: true
     networks:
       - paperless
