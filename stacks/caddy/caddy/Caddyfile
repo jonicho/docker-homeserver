@@ -101,7 +101,7 @@ homeassistant.{$DOMAIN} {
 	}
 }
 forgejo.{$DOMAIN} {
-	reverse_proxy forgejo:3000
+	reverse_proxy forgejo_wireguard:3000
 }
 adguardhome.{$DOMAIN} {
 	log access

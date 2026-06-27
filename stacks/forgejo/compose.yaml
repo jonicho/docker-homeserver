@@ -1,16 +1,64 @@
 services:
+  wireguard:
+    container_name: forgejo_wireguard
+    image: linuxserver/wireguard:1.0.20250521-r1-ls116@sha256:f33891344345b1f78705e723b633e3a3f94d08ae75ca1a5f48c5a449c35bf460
+    cap_add:
+      - NET_ADMIN
+    environment:
+      PUID: ${PUID:?}
+      PGID: ${PGID:?}
+      TZ: ${TZ:?}
+      DOMAIN: ${DOMAIN:?}
+      HOME_NETWORK: ${HOME_NETWORK:?}
+      WG_GATEWAY_PUBLIC_KEY: ${WG_GATEWAY_PUBLIC_KEY:?}
+      WG_PRIVATE_KEY: ${WG_FORGEJO_PRIVATE_KEY:?}
+      WG_PRESHARED_KEY: ${WG_FORGEJO_PRESHARED_KEY:?}
+      WG_ADDRESS: 10.0.0.3
+    volumes:
+      - type: bind
+        source: ../../wireguard/ifscript.sh
+        target: /ifscript.sh/
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../../wireguard/wg0.conf.template
+        target: /wg0.conf.template
+        read_only: true
+        bind:
+          create_host_path: false
+    entrypoint:
+      [
+        "bash",
+        "-c",
+        "apk add --no-cache envsubst && mkdir -p /config/wg_confs && envsubst < /wg0.conf.template > /config/wg_confs/wg0.conf && exec /init",
+      ]
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
+    ports:
+      - 22:22
+    networks:
+      - caddy
+    dns:
+      # set dns to cloudflare so the domain for the wireguard endpoint resolves correctly,
+      # even if the domain is rewritten to the local server address locally
+      - 1.1.1.1
+
   forgejo:
     container_name: forgejo
     image: codeberg.org/forgejo/forgejo:15.0.3-rootless@sha256:e7a59d193ad5e8bde19cffc68f26ee00e77a5b0014e95433eed5038f0c3888da
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
-    networks:
-      - caddy
+    network_mode: service:wireguard
     volumes:
       - ${APPDATA_STORAGE_PATH:?}/forgejo/data:/var/lib/gitea
       - /etc/localtime:/etc/localtime:ro
     environment:
       - TZ=${TZ:?}
+      - FORGEJO__server__START_SSH_SERVER=true
+      - FORGEJO__server__SSH_LISTEN_PORT=22
+      - FORGEJO__server__SSH_PORT=22
       - FORGEJO__log__MODE=file
 
 networks:

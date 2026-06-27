@@ -9,8 +9,10 @@ services:
       PGID: ${PGID:?}
       TZ: ${TZ:?}
       WG_PRIVATE_KEY: ${WG_PRIVATE_KEY:?}
-      WG_PEER_PUBLIC_KEY: ${WG_PEER_PUBLIC_KEY:?}
-      WG_PRESHARED_KEY: ${WG_PRESHARED_KEY:?}
+      WG_CADDY_PUBLIC_KEY: ${WG_CADDY_PUBLIC_KEY:?}
+      WG_CADDY_PRESHARED_KEY: ${WG_CADDY_PRESHARED_KEY:?}
+      WG_FORGEJO_PUBLIC_KEY: ${WG_FORGEJO_PUBLIC_KEY:?}
+      WG_FORGEJO_PRESHARED_KEY: ${WG_FORGEJO_PRESHARED_KEY:?}
     volumes:
       - type: bind
         source: ./ifscript.sh
@@ -34,6 +36,7 @@ services:
       - 80:80
       - 443:443
       - 443:443/udp
+      - 22:22
       - 51821:51821/udp
     sysctls:
       - net.ipv4.ip_forward=1

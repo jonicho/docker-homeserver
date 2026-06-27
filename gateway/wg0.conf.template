@@ -7,7 +7,13 @@ PostUp = /ifscript.sh %i up
 PreDown = /ifscript.sh %i down
 
 [Peer]
-PublicKey = ${WG_PEER_PUBLIC_KEY}
-PresharedKey = ${WG_PRESHARED_KEY}
+PublicKey = ${WG_CADDY_PUBLIC_KEY}
+PresharedKey = ${WG_CADDY_PRESHARED_KEY}
 AllowedIPs = 10.0.0.2/32
+PersistentKeepalive = 25
+
+[Peer]
+PublicKey = ${WG_FORGEJO_PUBLIC_KEY}
+PresharedKey = ${WG_FORGEJO_PRESHARED_KEY}
+AllowedIPs = 10.0.0.3/32
 PersistentKeepalive = 25
