@@ -20,9 +20,10 @@ services:
     environment:
       TZ: ${TZ:?}
 
-  matter-server:
-    container_name: homeassistant_matter_server
-    image: ghcr.io/matter-js/python-matter-server:8.1.2@sha256:6827e352011e2d8c2bde771e446fcf72acc49150ef66bad978816bac1762aad3
+  matterjs-server:
+    container_name: homeassistant_matterjs-server
+    image: ghcr.io/matter-js/matterjs-server:1.1.7@sha256:e52dc38320b53a0611628a8c3ed416a0dbb47c98ff83c9ef815f4184373f27b5
+    read_only: true
     restart: unless-stopped
     network_mode: host
     volumes:
