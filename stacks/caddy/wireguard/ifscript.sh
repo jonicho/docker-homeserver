@@ -15,19 +15,19 @@ dockernet=172.16.0.0/12
 
 if [[ "$action" = "up" ]]; then
     ip_route_action="add"
-    ip_route_insert_arg="I"
-    ip_route_append_arg="A"
+    iptables_insert_arg="I"
+    iptables_append_arg="A"
 elif [[ "$action" = "down" ]]; then
     ip_route_action="del"
-    ip_route_insert_arg="D"
-    ip_route_append_arg="D"
+    iptables_insert_arg="D"
+    iptables_append_arg="D"
 else
     echo "Invalid action \"$action\"!"
     exit 1
 fi
 
 ip route $ip_route_action $homenet via $droute
-iptables -$ip_route_insert_arg OUTPUT -d $homenet -j ACCEPT
+iptables -$iptables_insert_arg OUTPUT -d $homenet -j ACCEPT
 ip route $ip_route_action $dockernet via $droute
-iptables -$ip_route_insert_arg OUTPUT -d $dockernet -j ACCEPT
-iptables -$ip_route_append_arg OUTPUT ! -o $interface -m mark ! --mark $(wg show $interface fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
+iptables -$iptables_insert_arg OUTPUT -d $dockernet -j ACCEPT
+iptables -$iptables_append_arg OUTPUT ! -o $interface -m mark ! --mark $(wg show $interface fwmark) -m addrtype ! --dst-type LOCAL -j REJECT
