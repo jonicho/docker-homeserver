@@ -1,0 +1,4 @@
+filenames:
+  - /var/log/forgejo/*.log
+labels:
+  type: gitea
