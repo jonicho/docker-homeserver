@@ -1,10 +1,10 @@
-FROM caddy:2.11.4-builder-alpine@sha256:0ff10d4b83af453e5526b1c3cd7ae43396832aa8a2a55311d624f6812b33767d AS builder
+FROM caddy:2.11.4-builder-alpine@sha256:b6a94e74b72261bd536b35acdd22f3577d4e466a9550f2c8d6c8ed6413085d72 AS builder
 
 RUN xcaddy build \
     --with github.com/hslatman/caddy-crowdsec-bouncer/http@c30397c7679203a8d49da723f4acb981fe68ca1b \
     --with github.com/hslatman/caddy-crowdsec-bouncer/appsec@c30397c7679203a8d49da723f4acb981fe68ca1b
 
-FROM caddy:2.11.4-alpine@sha256:77c07d5ebfa5be9fd6c820d2094ae662c9e7eeb9bf98346b7f639900263ee2a2 AS caddy
+FROM caddy:2.11.4-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648 AS caddy
 
 WORKDIR /
 
