@@ -1,7 +1,7 @@
 services:
   wireguard:
     container_name: gateway_wireguard
-    image: linuxserver/wireguard:1.0.20250521-r1-ls116@sha256:f33891344345b1f78705e723b633e3a3f94d08ae75ca1a5f48c5a449c35bf460
+    image: linuxserver/wireguard:1.0.20260223-r0-ls118@sha256:2868ae5e3dd9065ea3b1e44b4214b33b02b7ce5ebcb9e4f33e1132b75007f39c
     cap_add:
       - NET_ADMIN
     environment:
