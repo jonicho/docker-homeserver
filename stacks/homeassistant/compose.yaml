@@ -22,7 +22,7 @@ services:
 
   matterjs-server:
     container_name: homeassistant_matterjs-server
-    image: ghcr.io/matter-js/matterjs-server:1.1.7@sha256:e52dc38320b53a0611628a8c3ed416a0dbb47c98ff83c9ef815f4184373f27b5
+    image: ghcr.io/matter-js/matterjs-server:1.2.7@sha256:3f2b19c26fa21f9a855fd1e31cc8e1b174e8fcece881ab4ac7f56b5d828446a6
     read_only: true
     restart: unless-stopped
     network_mode: host
