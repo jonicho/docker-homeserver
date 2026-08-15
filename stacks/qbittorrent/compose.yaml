@@ -1,7 +1,7 @@
 services:
   vpn:
     container_name: qbittorrent_vpn
-    image: thrnz/docker-wireguard-pia:20260701_master_835e5bc@sha256:a65fcfd4597c7af6c52ef9dc781e2a7df0089a7f7ff0f41b6ba8f3f957068e03
+    image: thrnz/docker-wireguard-pia:20260801_master_9e89d10@sha256:a63228ca35b55aeafeedfda33004e482c14672c79171c96942048ea37da08b02
     restart: unless-stopped
     volumes:
       - type: bind
