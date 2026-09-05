@@ -16,7 +16,7 @@ services:
     volumes:
       - type: bind
         source: ./ifscript.sh
-        target: /ifscript.sh/
+        target: /ifscript.sh
         read_only: true
         bind:
           create_host_path: false
