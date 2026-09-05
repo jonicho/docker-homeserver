@@ -39,7 +39,7 @@ services:
       - caddy
   qbittorrent:
     container_name: qbittorrent
-    image: qbittorrentofficial/qbittorrent-nox:5.2.3-1@sha256:9ebb534fe30bab98622cb84a8c3acecfd88319b2d540f52ecdec7b9f866374d7
+    image: qbittorrentofficial/qbittorrent-nox:5.2.3-lt2-1@sha256:f269c2aae56f1bf8caddd77a59e7ba2a278919d8401213266b8fe154c6ac1043
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     environment:
