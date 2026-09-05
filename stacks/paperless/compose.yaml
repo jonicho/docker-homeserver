@@ -64,7 +64,7 @@ services:
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
-      PAPERLESS_URL: https://paperless.${DOMAIN}
+      PAPERLESS_URL: https://paperless.${DOMAIN:?}
       TZ: ${TZ:?}
       PAPERLESS_TIME_ZONE: ${TZ:?}
       PAPERLESS_OCR_LANGUAGE: deu+eng
