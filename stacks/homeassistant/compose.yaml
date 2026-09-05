@@ -38,8 +38,7 @@ services:
 
   otbr:
     container_name: homeassistant_otbr
-    # https://github.com/openthread/ot-br-posix/releases/tag/v2026.08.0
-    image: openthread/border-router:sha-337711e@sha256:c1c047257ae0ed4baa471e4122ba295c3c83b42c34848a3eabe7950e18d3f328
+    image: openthread/border-router:v2026.09.0@sha256:7616b9d514dee5cc30f572066e05cb775a04c48e07d10f6c43916ce8be88a68f
     restart: unless-stopped
     network_mode: host
     cap_add:
