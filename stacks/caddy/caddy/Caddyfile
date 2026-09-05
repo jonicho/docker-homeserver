@@ -101,7 +101,12 @@ homeassistant.{$DOMAIN} {
 	}
 }
 forgejo.{$DOMAIN} {
-	reverse_proxy forgejo_wireguard:3000
+	log access
+	route {
+		crowdsec
+		appsec
+		reverse_proxy forgejo_wireguard:3000
+	}
 }
 adguardhome.{$DOMAIN} {
 	log access
