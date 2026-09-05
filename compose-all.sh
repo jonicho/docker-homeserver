@@ -3,5 +3,5 @@
 set -eu
 
 for dir in stacks/*; do
-  (cd $dir && sudo docker compose $@)
+  (cd "$dir" && sudo docker compose "$@")
 done
