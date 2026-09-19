@@ -85,3 +85,24 @@ services:
         target: /mosquitto/log
         bind:
           create_host_path: false
+
+  zigbee2mqtt:
+    container_name: homeassistant_zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt:2.14.1@sha256:fef0de769dcd04c27b3a6d277b61046eb96284bdd4198dcb1687c3a01b3020f3
+    user: ${PUID:?}:${PGID:?}
+    group_add:
+      - dialout
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: ${APPDATA_STORAGE_PATH:?}/homeassistant/zigbee2mqtt
+        target: /app/data
+        bind:
+          create_host_path: false
+    ports:
+      - 8082:8080
+    environment:
+      TZ: ${TZ:?}
+    devices:
+      - ${ZIGBEE2MQTT_DEVICE:?}:/dev/ttyACM0
+
