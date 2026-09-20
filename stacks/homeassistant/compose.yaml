@@ -50,7 +50,7 @@ services:
       OT_RCP_DEVICE: spinel+hdlc+uart:///dev/ttyACM0?uart-baudrate=460800
       OT_INFRA_IF: ${OT_INFRA_IF:?}
       OT_THREAD_IF: wpan0
-      OT_LOG_LEVEL: 7
+      OT_LOG_LEVEL: 4
       TZ: ${TZ:?}
     volumes:
       - type: bind
