@@ -1,7 +1,7 @@
 services:
   wireguard:
     container_name: forgejo_wireguard
-    image: linuxserver/wireguard:1.0.20260223-r0-ls123@sha256:33c5e4260f5ddf9376fcb6f1ff90c0ccc3c63d2ab469595e33d178ecf8a4c4c6
+    image: linuxserver/wireguard:1.0.20260223-r0-ls125@sha256:437a490f7afc6969434251351ba47455a3829e71cef9c6172f3f533332d04063
     cap_add:
       - NET_ADMIN
     environment:
