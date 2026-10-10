@@ -1,7 +1,7 @@
 services:
   hortusfox:
     container_name: hortusfox
-    image: ghcr.io/danielbrendel/hortusfox-web:v6.1@sha256:dfe8ad32d41b67074a8fc7ae6196926f96a63acb319199344320697b1183f992
+    image: ghcr.io/danielbrendel/hortusfox-web:v6.3@sha256:a26d2333a4c0c0786c9d384c176d45c3f15bb748d327c1340a64ce636555a51e
     restart: unless-stopped
     depends_on:
       - db
