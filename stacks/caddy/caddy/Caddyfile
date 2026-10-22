@@ -8,6 +8,9 @@
 		api_url http://crowdsec:8080
 		api_key {$CROWDSEC_API_KEY}
 		appsec_url http://crowdsec:7422
+		# CrowdSec AppSec rejects bodies > 10 MiB, which blocks chunked
+		# uploads; only inspect the first 1 MiB of each request body.
+		appsec_max_body_bytes 1048576
     }
 }
 
