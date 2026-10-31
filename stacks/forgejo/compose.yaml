@@ -51,6 +51,10 @@ services:
     restart: unless-stopped
     user: ${PUID:?}:${PGID:?}
     network_mode: service:wireguard
+    configs:
+      # the ssh client used for push mirrors fails if the uid has no passwd entry
+      - source: passwd
+        target: /etc/passwd
     volumes:
       - type: bind
         source: ${APPDATA_STORAGE_PATH:?}/forgejo/data
@@ -76,6 +80,12 @@ services:
       - FORGEJO__mailer__SMTP_PORT=465
       - FORGEJO__mailer__USER=forgejo@${DOMAIN:?}
       - FORGEJO__mailer__PASSWD=${FORGEJO_SMTP_PASSWORD:?}
+
+configs:
+  passwd:
+    content: |
+      root:x:0:0:root:/root:/bin/sh
+      git:x:${PUID:?}:${PGID:?}:Git:/var/lib/gitea/git:/bin/bash
 
 networks:
   caddy:
